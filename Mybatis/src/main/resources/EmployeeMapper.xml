@@ -86,4 +86,26 @@
 
     </resultMap>
 
+    <!-- 动态sql
+            动态拼接where部分
+
+          <where>: 帮你生成一个where。如果标签体中没有内容，不生成。有内容，才生成一个where
+
+          <if test=" 逻辑判断表达式 ">，如果test中为true，帮你拼接if标签体中的内容
+    -->
+    <select id="getEmps2" resultType="com.atguigu.mybatis.beans.Employee">
+        select * from employee
+        <where>
+            <if test=" name != null and name != '' ">
+                and last_name = #{name}
+            </if>
+            <if test=" g != null and g != '' ">
+                and gender = #{g}
+            </if>
+            <if test=" e != null and e != '' ">
+                and  email = #{e}
+            </if>
+        </where>
+    </select>
+
 </mapper>

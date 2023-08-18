@@ -46,6 +46,21 @@ public class EmployeeMapperTest
     //private SqlSession sqlSession = sqlSessionFactory.openSession();
 
     @Test
+    public void testDynamicSql() {
+        SqlSession session = sqlSessionFactory.openSession();
+
+        try {
+
+            EmployeeMapper mapper = session.getMapper(EmployeeMapper.class);
+            //CRUD
+            System.err.println(mapper.getEmps2("Tom", "male", null));
+
+
+        } finally {
+            session.close();
+        }
+    }
+    @Test
     public void testResultMap() {
         SqlSession session = sqlSessionFactory.openSession();
 

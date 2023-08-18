@@ -2,6 +2,8 @@ package com.atguigu.mybatis.mapper;
 
 import com.atguigu.mybatis.beans.Emp;
 import com.atguigu.mybatis.beans.Employee;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -34,5 +36,19 @@ public interface EmployeeMapper
 
     //演示resultMap
     List<Emp> getAllEmp();
+
+
+    /*
+        演示动态sql
+       根据条件查询员工
+           如果传入了last_name，使用last_name进行过滤
+           如果传入了gender，使用gender进行过滤
+           如果传入了email，使用email进行过滤
+
+           where gender = #{g} and last_name = #{name} and email = #{e}
+    */
+    //@Select(" select * from employee ${} ")
+    List<Employee> getEmps2(@Param("name") String last_name, @Param("g")String gender,
+                            @Param("e")String email);
 
 }
