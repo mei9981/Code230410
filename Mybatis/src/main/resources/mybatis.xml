@@ -3,6 +3,10 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+
     <!-- 数据库连接环境 -->
     <environments default="b">
         <!-- 定义一个数据库连接环境 -->
@@ -24,5 +28,8 @@
     <mappers>
         <!-- sql.xml中有sql，记得去找 -->
         <mapper resource="sql.xml"/>
+        <mapper resource="EmployeeMapper.xml"/>
     </mappers>
+    
+
 </configuration>

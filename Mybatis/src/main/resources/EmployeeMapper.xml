@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--
+   namespace:  名称空间，类似包名。
+        必须和对应的接口的全类名一致
+-->
+<mapper namespace="com.atguigu.mybatis.mapper.EmployeeMapper">
+    <!--
+        定义sql，是什么语句，就用什么标签。
+            select语句，使用 <select>标签
+
+            语句标签上的id，是这条语句在这个文件中的唯一标识，必须保证唯一。
+                要和对应的方法名一致！
+
+            如果是查询语句，必须在标签头上声明返回值类型
+                resultType: 查询的结果集中的一行要封装为的Bean的类型
+    -->
+   <!--
+     字面量（字面上就能看出变量值的变量）: 基本数据类型及包装类，String
+        int a = 1;
+        double b = 2.0d;
+        String s = "haha";
+
+        非字面量:  Employee e = new Employee();
+
+      关于占位符:
+            在jdbc中，使用?作为占位符
+            在mybatis中，使用 #{xxx}作为占位符
+                xxx：
+                    如果传参的方法中，传入的参数中只有一个且是普通参数(字面量)，xxx可以随便写.
+                    如果传参的方法中，传入的参数中只有一个且是Bean，xxx可以写Bean的属性名，#{xxx}就能获取Bean的属性值。
+
+   -->
+    <select id="getEmpById" resultType="com.atguigu.mybatis.beans.Employee">
+        select * from employee where id = #{ageakljga}
+    </select>
+
+    <select id="getAll" resultType="com.atguigu.mybatis.beans.Employee">
+        select * from employee
+    </select>
+
+    <!--
+         void updateEmp(new Employee(1, "jack", "a", "b"));
+
+         #{id} = 1
+         #{lastName} = jack
+    -->
+    <update id="updateEmp">
+        update employee set last_name = #{lastName} , gender = #{gender} ,email = #{email}
+        where id = #{id}
+    </update>
+
+    <insert id="insertEmp">
+        insert into employee(last_name,gender,email) values(#{lastName},#{gender},#{email})
+    </insert>
+
+    <delete id="deleteEmpById">
+        delete from employee where id = #{xxxx}
+    </delete>
+
+</mapper>

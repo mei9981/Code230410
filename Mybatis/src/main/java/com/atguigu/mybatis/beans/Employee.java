@@ -29,10 +29,15 @@ public class Employee
     private String gender;
     private String email;
 
+    /*public void setLast_name(String a){
+        lastName = a;
+    }*/
+
     public static void main(String[] args) {
 
         Employee employee = new Employee();
         employee.setGender("male");
+        employee.setLastName("a");
         System.out.println(employee);
 
         Employee employee1 = new Employee(1, "jack", "a", "b");
