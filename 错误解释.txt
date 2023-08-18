@@ -1,0 +1,7 @@
+一、Mybatis
+
+java.lang.IllegalArgumentException：
+    Mapped Statements collection does not contain value for feichangbang.a
+
+        已经注册的sql语句的集合中，找不到feichangbang.a。
+        原因：sql写完后，没有注册，必须告诉Mybatis，哪些文件中写有sql，让它去找！

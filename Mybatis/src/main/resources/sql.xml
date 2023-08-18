@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--
+   namespace:  名称空间，类似包名。 随便定义即可
+-->
+<mapper namespace="feichangbang">
+    <!--
+        定义sql，是什么语句，就用什么标签。
+            select语句，使用 <select>标签
+
+            语句标签上的id，是这条语句在这个文件中的唯一标识，必须保证唯一。
+            如果是查询语句，必须在标签头上声明返回值类型
+                resultType: 查询的结果集中的一行要封装为的Bean的类型
+
+
+         关于占位符:
+            在jdbc中，使用?作为占位符
+            在mybatis中，使用 #{xxx}作为占位符
+                xxx：
+                    如果整个参数中只有一个占位符，xxx可以随便写
+    -->
+    <!--
+        查询某个id的员工
+    -->
+    <select id="a" resultType="com.atguigu.mybatis.beans.Employee">
+        select * from employee where id = #{aehgoiahgaoiha}
+    </select>
+
+    <select id="b">
+        select * from employee where id = ?
+    </select>
+
+</mapper>
