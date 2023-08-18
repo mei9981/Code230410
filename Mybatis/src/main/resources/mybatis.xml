@@ -29,6 +29,8 @@
         <!-- sql.xml中有sql，记得去找 -->
         <mapper resource="sql.xml"/>
         <mapper resource="EmployeeMapper.xml"/>
+        <mapper class="com.atguigu.mybatis.mapper.EmployeeMapper2"/>
+        <mapper class="com.atguigu.mybatis.mapper.ParamPassMapper"/>
     </mappers>
     
 

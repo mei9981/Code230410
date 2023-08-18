@@ -61,4 +61,29 @@
         delete from employee where id = #{xxxx}
     </delete>
 
+
+    <select id="getAllEmp" resultMap="rm1">
+        select * from employee
+    </select>
+
+    <!-- 自定义封装规则
+        type: 最终方法要封装的Bean的类型。 方法返回值的类型。
+        autoMapping="true"： 没有指定封装规则的属性，还是用默认的规则封装。
+    -->
+    <resultMap id="rm1" type="com.atguigu.mybatis.beans.Emp" autoMapping="true">
+        <!-- 一个result代表一个属性和一个列名的对应关系
+            column: 列名
+            property: bean的属性名
+        -->
+        <result column="last_name" property="name"/>
+        <!-- 如果Bean的属性又是一个Bean，此时使用association指定
+                 property: bean的属性名
+                 javaType： 嵌套的Bean的类型
+        -->
+        <association property="genderAndEmail" javaType="com.atguigu.mybatis.beans.GenderAndEmail" autoMapping="true">
+            <result column="email" property="emailAddr"/>
+        </association>
+
+    </resultMap>
+
 </mapper>

@@ -1,7 +1,11 @@
 一、Mybatis
 
-java.lang.IllegalArgumentException：
+1.java.lang.IllegalArgumentException：
     Mapped Statements collection does not contain value for feichangbang.a
 
         已经注册的sql语句的集合中，找不到feichangbang.a。
         原因：sql写完后，没有注册，必须告诉Mybatis，哪些文件中写有sql，让它去找！
+
+2.org.apache.ibatis.binding.BindingException:
+        sql语句没有注册，或sql语句和对应的方法，无法一一对应。
+    Type interface com.atguigu.mybatis.mapper.ParamPassMapper is not known to the MapperRegistry.

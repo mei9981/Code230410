@@ -11,8 +11,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by Smexy on 2023/8/18
  *
@@ -27,7 +25,7 @@ import static org.junit.Assert.*;
  *          需要在最终去提交事务。
  *
  */
-public class EmployeeMapperTest
+public class EmployeeMapperTest2
 {
     private SqlSessionFactory sqlSessionFactory;
 
@@ -46,32 +44,16 @@ public class EmployeeMapperTest
     //private SqlSession sqlSession = sqlSessionFactory.openSession();
 
     @Test
-    public void testResultMap() {
-        SqlSession session = sqlSessionFactory.openSession();
-
-        try {
-
-            EmployeeMapper mapper = session.getMapper(EmployeeMapper.class);
-            //CRUD
-            System.out.println(mapper.getAllEmp());
-
-
-        } finally {
-            session.close();
-        }
-    }
-
-    @Test
     public void getAll() {
         SqlSession session = sqlSessionFactory.openSession();
 
         try {
-            //com.sun.proxy.$Proxy5 implements com.atguigu.mybatis.mapper.EmployeeMapper
+            //com.sun.proxy.$Proxy5 implements com.atguigu.mybatis.mapper.EmployeeMapper2
             //使用Mybatis提供的动态代理技术，获取接口的一个实例
-            EmployeeMapper mapper = session.getMapper(EmployeeMapper.class);
+            EmployeeMapper2 mapper = session.getMapper(EmployeeMapper2.class);
             //class com.sun.proxy.$Proxy5
             System.out.println(mapper.getClass());
-            //[interface com.atguigu.mybatis.mapper.EmployeeMapper]
+            //[interface com.atguigu.mybatis.mapper.EmployeeMapper2]
             System.out.println(Arrays.toString(mapper.getClass().getInterfaces()));
             //进行CRUD
             System.out.println(mapper.getAll());
@@ -87,7 +69,7 @@ public class EmployeeMapperTest
 
         try {
 
-            EmployeeMapper mapper = session.getMapper(EmployeeMapper.class);
+            EmployeeMapper2 mapper = session.getMapper(EmployeeMapper2.class);
             //CRUD
             Employee emp = mapper.getEmpById(1);
 
@@ -104,7 +86,7 @@ public class EmployeeMapperTest
 
         try {
 
-            EmployeeMapper mapper = session.getMapper(EmployeeMapper.class);
+            EmployeeMapper2 mapper = session.getMapper(EmployeeMapper2.class);
             //CRUD
             mapper.deleteEmpById(2);
             //手动提交事务
@@ -120,7 +102,7 @@ public class EmployeeMapperTest
 
         try {
 
-            EmployeeMapper mapper = session.getMapper(EmployeeMapper.class);
+            EmployeeMapper2 mapper = session.getMapper(EmployeeMapper2.class);
             //CRUD
             Employee e = mapper.getEmpById(3);
             e.setLastName("hahaha");
@@ -137,7 +119,7 @@ public class EmployeeMapperTest
 
         try {
 
-            EmployeeMapper mapper = session.getMapper(EmployeeMapper.class);
+            EmployeeMapper2 mapper = session.getMapper(EmployeeMapper2.class);
             //CRUD
             mapper.insertEmp(new Employee(null, "jack", "a", "b"));
         } finally {

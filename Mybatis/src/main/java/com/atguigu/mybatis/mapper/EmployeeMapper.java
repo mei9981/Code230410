@@ -1,5 +1,6 @@
 package com.atguigu.mybatis.mapper;
 
+import com.atguigu.mybatis.beans.Emp;
 import com.atguigu.mybatis.beans.Employee;
 
 import java.util.List;
@@ -11,6 +12,10 @@ import java.util.List;
  *
  *      mapper: 编写了sql的xml文件
  *      Mapper: Dao层接口
+ *
+ *   -----------
+ *      使用Mybatis，可以不为接口提供实现类，就可以拥有接口的实例。
+ *          通过Mybatis提供的动态代理技术。
  *
  */
 public interface EmployeeMapper
@@ -26,5 +31,8 @@ public interface EmployeeMapper
     void updateEmp(Employee employee);
 
     List<Employee> getAll();
+
+    //演示resultMap
+    List<Emp> getAllEmp();
 
 }
