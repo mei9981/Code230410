@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  *  @Controller:
  *          作用:
  *              1.标识当前类是一个控制器(用来处理请求的类)
- *              2.当Spring容器扫描顶了这个注解的类时，会自动在容器中帮我们创建一个单例的对象
+ *              2.当Spring容器扫描到了这个注解的类时，会自动在容器中帮我们创建一个单例的对象
  *
  *  @RequestMapping: 映射请求。
  *          声明位置： 类上或方法上。
