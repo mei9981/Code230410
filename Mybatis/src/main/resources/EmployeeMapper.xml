@@ -35,12 +35,21 @@
 
    -->
     <select id="getEmpById" resultType="com.atguigu.mybatis.beans.Employee">
-        select * from employee where id = #{ageakljga}
+        <include refid="sql1"/> where id = #{ageakljga}
     </select>
 
+    <!--
+        refid: 要引用的sql标签的id
+    -->
     <select id="getAll" resultType="com.atguigu.mybatis.beans.Employee">
-        select * from employee
+       <include refid="sql1"/>
     </select>
+
+
+
+    <sql id="sql1">
+        select * from employee
+    </sql>
 
     <!--
          void updateEmp(new Employee(1, "jack", "a", "b"));
@@ -63,7 +72,7 @@
 
 
     <select id="getAllEmp" resultMap="rm1">
-        select * from employee
+        <include refid="sql1"/>
     </select>
 
     <!-- 自定义封装规则
