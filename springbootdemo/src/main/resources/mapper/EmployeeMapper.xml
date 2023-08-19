@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--
+   namespace:  名称空间，类似包名。
+        必须和对应的接口的全类名一致
+-->
+<mapper namespace="com.atguigu.springbootdemo.mapper.EmployeeMapper">
+
+    <select id="getEmpById" resultType="com.atguigu.springbootdemo.bean.Employee">
+        <include refid="sql1"/> where id = #{ageakljga}
+    </select>
+
+    <!--
+        refid: 要引用的sql标签的id
+    -->
+    <select id="getAll" resultType="com.atguigu.springbootdemo.bean.Employee">
+       <include refid="sql1"/>
+    </select>
+
+
+
+    <sql id="sql1">
+        select * from employee
+    </sql>
+
+    <!--
+         void updateEmp(new Employee(1, "jack", "a", "b"));
+
+         #{id} = 1
+         #{lastName} = jack
+    -->
+    <update id="updateEmp">
+        update employee set last_name = #{lastName} , gender = #{gender} ,email = #{email}
+        where id = #{id}
+    </update>
+
+    <insert id="insertEmp">
+        insert into employee(last_name,gender,email) values(#{lastName},#{gender},#{email})
+    </insert>
+
+    <delete id="deleteEmpById">
+        delete from employee where id = #{xxxx}
+    </delete>
+
+</mapper>
