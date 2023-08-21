@@ -1,6 +1,7 @@
 package com.atguigu.springbootdemo.service;
 
 import com.atguigu.springbootdemo.bean.Employee;
+import com.atguigu.springbootdemo.bean.Region;
 import com.atguigu.springbootdemo.mapper.EmployeeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,8 @@ import java.util.List;
  *  @Service 和 @Component的功能一模一样。
  *      @Service纯粹是为了提醒程序员，这个是一个业务模型！
  */
-//@Service
+//默认对象的id是类名首字母小写
+@Service("e1")
 public class EmployeeServiceImpl implements  EmployeeService
 {
     //需要提供一个Dao，可以读写数据库中的employee表
@@ -58,5 +60,10 @@ public class EmployeeServiceImpl implements  EmployeeService
         List<Employee> all = mapper.getAll();
         System.out.println("查询之后，做xxxx事情，已经完成了");
         return all;
+    }
+
+    @Override
+    public List<Region> getAllRegion() {
+        return mapper.getAllRegion();
     }
 }

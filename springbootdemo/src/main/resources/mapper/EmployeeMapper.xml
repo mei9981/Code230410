@@ -21,6 +21,9 @@
     </select>
 
 
+    <select id="getAllRegion" resultType="com.atguigu.springbootdemo.bean.Region">
+        select * from base_region
+    </select>
 
     <sql id="sql1">
         select * from employee

@@ -2,8 +2,10 @@ package com.atguigu.springbootdemo;
 
 import com.atguigu.springbootdemo.bean.Dog;
 import com.atguigu.springbootdemo.bean.TuDog;
+import com.atguigu.springbootdemo.service.EmployeeService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
@@ -24,6 +26,11 @@ class SpringbootdemoApplicationTests
      */
     @Autowired
     private Dog dog;
+
+    //容器中有多个统一类型的对象，可以指定id，赋值给当前的变量
+    @Qualifier("e1")
+    @Autowired
+    private EmployeeService service;
 
     @Autowired
     private LocalDate today;

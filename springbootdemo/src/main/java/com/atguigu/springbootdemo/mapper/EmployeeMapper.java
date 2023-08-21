@@ -1,6 +1,8 @@
 package com.atguigu.springbootdemo.mapper;
 
 import com.atguigu.springbootdemo.bean.Employee;
+import com.atguigu.springbootdemo.bean.Region;
+import com.baomidou.dynamic.datasource.annotation.DS;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -15,6 +17,7 @@ import java.util.List;
  *                  告诉程序员，这是一个Mapper
  */
 @Mapper
+//@DS("mybatis") //默认这个类的所有方法都使用指定的数据源
 public interface EmployeeMapper
 {
     //根据id查询员工
@@ -25,9 +28,14 @@ public interface EmployeeMapper
 
     void insertEmp(Employee employee);
 
+    @DS("mybatis")
     void updateEmp(Employee employee);
 
+    @DS("mybatis")
     List<Employee> getAll();
+
+    @DS("gmall") //局部优先
+    List<Region> getAllRegion();
 
 
 }

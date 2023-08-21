@@ -1,6 +1,7 @@
 package com.atguigu.springbootdemo.service;
 
 import com.atguigu.springbootdemo.bean.Employee;
+import com.atguigu.springbootdemo.bean.Region;
 import com.atguigu.springbootdemo.mapper.EmployeeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -58,5 +59,10 @@ public class EmployeeServiceImpl2 implements  EmployeeService
         List<Employee> all = mapper.getAll();
         System.out.println("查询之后，做xxxx事情，已经完成了");
         return all;
+    }
+
+    @Override
+    public List<Region> getAllRegion() {
+        return null;
     }
 }

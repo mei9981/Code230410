@@ -5,6 +5,7 @@ import com.atguigu.springbootdemo.service.EmployeeService;
 import com.atguigu.springbootdemo.service.EmployeeServiceImpl;
 import com.atguigu.springbootdemo.service.EmployeeServiceImpl2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,6 +21,7 @@ public class EmpController
 {
     //  service = new EmployeeServiceImpl();
     @Autowired
+    @Qualifier("e1")
     private EmployeeService service;
     //处理单个员工  /emp?op=select&id=&lastname=&gender=&email=
     @RequestMapping("/emp")
@@ -59,5 +61,10 @@ public class EmpController
     @RequestMapping("/getAllEmp")
     public Object handle2(){
         return service.getAll();
+    }
+
+    @RequestMapping("/getRegions")
+    public Object handle3(){
+        return service.getAllRegion();
     }
 }

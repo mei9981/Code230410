@@ -1,6 +1,7 @@
 package com.atguigu.springbootdemo.service;
 
 import com.atguigu.springbootdemo.bean.Employee;
+import com.atguigu.springbootdemo.bean.Region;
 
 import java.util.List;
 
@@ -23,6 +24,8 @@ public interface EmployeeService
     void updateEmp(Employee employee);
 
     List<Employee> getAll();
+
+    List<Region> getAllRegion();
 
     /*String sayHaha();
     String sayXixi();*/
