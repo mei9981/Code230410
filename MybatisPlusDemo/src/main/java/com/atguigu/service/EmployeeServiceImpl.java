@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -27,4 +28,9 @@ import java.util.function.Function;
 public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper,Employee> implements EmployeeService
 {
 
+    //无需注入Mapper
+    @Override
+    public List<Employee> getEmps() {
+        return baseMapper.getEmps();
+    }
 }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--
+   namespace:  名称空间，类似包名。
+        必须和对应的接口的全类名一致
+-->
+<mapper namespace="com.atguigu.mapper.EmployeeMapper">
+
+        <select id="getEmps" resultType="com.atguigu.bean.Employee">
+            SELECT
+                t1.*
+            FROM emp t1 JOIN emp t2
+            ON t1.`id` = t2.`id`
+        </select>
+
+</mapper>

@@ -22,7 +22,7 @@ spring:
 
 #前缀全部替换为mybatis-plus
 mybatis-plus:
-  mapper-locations: classpath*:/mapper/*Mapper.xml
+  mapper-locations: classpath*:/mappers/*Mapper.xml
   configuration:
     mapUnderscoreToCamelCase: true
 
