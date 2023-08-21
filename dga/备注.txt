@@ -1,0 +1,26 @@
+1.启动项目的要求
+   a)主机名要求:
+    必须在window的hosts文件中添加以下映射:
+    127.0.0.1 dga.gmall.com
+
+    dga(data governance assess)
+
+   b)端口号要求
+    项目强制绑定80端口
+
+    一小部分同学，window电脑启动一个服务IIS，默认占用80端口。先百度，如何让IIS服务开机不启动！
+
+2.元数据管理模块之手动更新元数据
+
+   功能流程:  Controller(接收 库名 和 考评日期)
+              ---->Service 提供方法处理这个业务过程
+                   ----->Bean
+                    ---->Mapper 把元数据存储到数据库中
+                        ---->数据库中建表。
+
+
+   数据库功能设计: 这张表怎么建。
+        主要功能： 存储hive中表的元数据。
+        列信息： 主要以hive中表的元数据为准。
+        粒度：  一个考评日期的一个库下的一张表。
+                      unique (table_name, schema_name, assess_date)
