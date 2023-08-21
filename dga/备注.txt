@@ -24,3 +24,14 @@
         列信息： 主要以hive中表的元数据为准。
         粒度：  一个考评日期的一个库下的一张表。
                       unique (table_name, schema_name, assess_date)
+
+3.如何通过java程序获取hive的元数据信息
+    简单的方式:
+        1)发送sql: desc formatted dim_user_zip;
+        使用JDBC，将以上sql发给 hiveserver2.
+            不推荐: 效率很低。hiveserver2执行sql时，延迟很高。
+
+        2)借助hive中的hive metastore service服务获取元数据。
+            拥有一个 hive metastore service的client，使用client发送请求获取元数据。
+
+
