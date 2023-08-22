@@ -89,7 +89,7 @@ public class TableMetaInfo implements Serializable {
     /**
      * 表创建时间 ( 来源:hive)
      */
-    private String tableCreateTime;
+    private Timestamp tableCreateTime;
 
     /**
      * 表类型 ( 来源:hive)

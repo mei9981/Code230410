@@ -33,3 +33,22 @@ create table  table_meta_info
         unique (table_name, schema_name, assess_date)
 )
     comment '元数据表';
+
+create table if not exists table_meta_info_extra
+(
+    id                   bigint auto_increment comment 'id'
+        primary key,
+    table_name           varchar(200) null comment '表名',
+    schema_name          varchar(200) null comment '库名',
+    tec_owner_user_name  varchar(20)  null comment '技术负责人   ',
+    busi_owner_user_name varchar(20)  null comment '业务负责人 ',
+    lifecycle_type       varchar(20)  null comment '存储周期类型',
+    lifecycle_days       bigint       null comment '生命周期(天) ',
+    security_level       varchar(20)  null comment '安全级别',
+    dw_level             varchar(20)  null comment '数仓所在层级',
+    create_time          datetime     null comment '创建时间 (自动生成)',
+    update_time          datetime     null comment '更新时间  (自动生成)',
+    constraint table_meta_info_extra_pk
+        unique (table_name, schema_name)
+)
+    comment '元数据表附加信息';

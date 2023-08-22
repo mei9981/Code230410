@@ -148,7 +148,8 @@ public class TableMetaInfoServiceImpl extends ServiceImpl<TableMetaInfoMapper, T
         tableMetaInfo.setTableInputFormat(sd.getInputFormat());
         tableMetaInfo.setTableOutputFormat(sd.getOutputFormat());
         tableMetaInfo.setTableRowFormatSerde(sd.getSerdeInfo().getSerializationLib());
-        tableMetaInfo.setCreateTime(new Timestamp(tableMeta.getCreateTime()));
+        //注意修改表的列类型
+        tableMetaInfo.setTableCreateTime(new Timestamp(tableMeta.getCreateTime() * 1000l));
         tableMetaInfo.setTableType(tableMeta.getTableType());
         tableMetaInfo.setTableBucketColsJson(JSON.toJSONString(sd.getBucketCols(),filter));
         tableMetaInfo.setTableBucketNum(sd.getNumBuckets()+0l);
