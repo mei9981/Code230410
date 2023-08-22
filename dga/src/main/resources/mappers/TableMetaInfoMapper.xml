@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--
+   namespace:  名称空间，类似包名。
+        必须和对应的接口的全类名一致
+-->
+<mapper namespace="com.atguigu.dga.meta.mapper.TableMetaInfoMapper">
+
+    <!--
+        如果返回的是java中的基本数据类型，Mybatis已经提前内置了别名。
+            Integer   int
+            Double   double
+    -->
+        <select id="queryPageDataNums" resultType="int">
+            select
+                count(*)
+            <include refid="sql1"/>
+        </select>
+
+        <select id="queryPageData" resultType="com.atguigu.dga.meta.bean.PageTableMetaInfo">
+            select
+                t2.*,
+                t1.tec_owner_user_name,
+                t1.busi_owner_user_name
+            <include refid="sql1"/>
+            order by id
+            limit #{from},#{size}
+        </select>
+
+    <sql id="sql1">
+        from (select
+                  table_name,
+                  schema_name,
+                  tec_owner_user_name,
+                  busi_owner_user_name
+              from table_meta_info_extra
+            <where>
+                <include refid="whereSql"/>
+                <if test=" level != null and level != '' ">
+                    and  dw_level = #{level}
+                </if>
+            </where>
+              ) t1
+                 join
+             (select
+                  id,
+                  table_name,
+                  schema_name,
+                  table_comment,
+                  table_size,
+                  table_total_size,
+                  table_last_modify_time,
+                  table_last_access_time
+              from table_meta_info
+              <where>
+                  <include refid="whereSql"/>
+                  and assess_date = (select  max(assess_date) from table_meta_info)
+              </where>
+              ) t2
+             on t1.table_name = t2.table_name and t1.schema_name = t2.schema_name
+    </sql>
+
+    <sql id="whereSql">
+        <if test=" db != null and db != '' ">
+            and schema_name = #{db}
+        </if>
+        <if test=" table != null and table != '' ">
+            and table_name like concat('%',#{table},'%')
+        </if>
+    </sql>
+
+</mapper>

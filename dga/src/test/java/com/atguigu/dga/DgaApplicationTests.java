@@ -2,6 +2,8 @@ package com.atguigu.dga;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
+import com.atguigu.dga.meta.bean.PageTableMetaInfo;
+import com.atguigu.dga.meta.mapper.TableMetaInfoMapper;
 import com.atguigu.dga.meta.service.TableMetaInfoService;
 import org.apache.hadoop.hive.metastore.HiveMetaStoreClient;
 import org.apache.hadoop.hive.metastore.api.StorageDescriptor;
@@ -55,6 +57,18 @@ class DgaApplicationTests
     @Test
     void testExtractHiveMetaInfo() throws Exception {
         service.initTableMetaInfo("gmall","2023-08-22");
+    }
+
+    @Autowired
+    private TableMetaInfoMapper tableMetaInfoMapper;
+
+    @Test
+    void testPage(){
+        /*List<PageTableMetaInfo> data = tableMetaInfoMapper.queryPageData("", "", "", 10, 1);
+        System.out.println(data);*/
+
+        Integer nums = tableMetaInfoMapper.queryPageDataNums("", "", "");
+        System.out.println(nums);
     }
 
 }

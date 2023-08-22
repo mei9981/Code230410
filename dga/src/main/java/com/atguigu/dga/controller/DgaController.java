@@ -1,12 +1,17 @@
 package com.atguigu.dga.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import com.atguigu.dga.meta.bean.PageTableMetaInfo;
+import com.atguigu.dga.meta.bean.TableMetaInfo;
+import com.atguigu.dga.meta.bean.TableMetaInfoExtra;
 import com.atguigu.dga.meta.service.TableMetaInfoExtraService;
 import com.atguigu.dga.meta.service.TableMetaInfoService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * Created by Smexy on 2023/8/21
@@ -53,11 +58,52 @@ public class DgaController
                 返回的格式: []   ,用List 或 JSONArray封装。
 
      */
-    @PostMapping("/table-list")
+    @GetMapping("/table-list")
     public Object handle1(String schemaName,String tableName,String dwLevel,Integer pageSize,Integer pageNo ) throws Exception {
 
         //计算当前应该返回给用户的数据的起始索引
         int from =  (pageNo - 1) * pageSize;
+
+        List<PageTableMetaInfo> data = metaInfoService.queryPageData(schemaName, tableName, dwLevel, pageSize, from);
+        Integer nums = metaInfoService.queryPageDataNums(schemaName, tableName, dwLevel);
+
+        //封装格式
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("total",nums);
+        jsonObject.put("list",data);
+
+        return jsonObject;
+    }
+
+    /*
+        查询单张表的元数据信息
+     */
+    @GetMapping("/table/{id}")
+    public Object handle2(@PathVariable("id") Integer id ) throws Exception {
+
+        //查询table_meta_info
+        TableMetaInfo result = metaInfoService.getById(id);
+        //再查询table_meta_info_extra，把查询的结果作为属性赋值到TableMetaInfo中
+        TableMetaInfoExtra extraMetaInfo = extraMetaService.getOne(
+            new QueryWrapper<TableMetaInfoExtra>()
+                .eq("table_name", result.getTableName())
+                .eq("schema_name", result.getSchemaName())
+        );
+        result.setTableMetaInfoExtra(extraMetaInfo);
+
+        return result;
+    }
+
+    /*
+        接收json格式的参数，使用Map或Bean封装
+     */
+    @PostMapping("/tableExtra")
+    public Object handle3( @RequestBody TableMetaInfoExtra bean ) throws Exception {
+
+        //添加更新时间
+        bean.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+        //把页面传入的辅助信息保存到数据库
+        extraMetaService.saveOrUpdate(bean);
 
         return "success";
     }

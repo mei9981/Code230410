@@ -1,3 +1,34 @@
+
+select
+    t2.*,
+    t1.tec_owner_user_name,
+    t1.busi_owner_user_name
+from (select
+             table_name,
+             schema_name,
+                 tec_owner_user_name,
+             busi_owner_user_name
+      from table_meta_info_extra) t1
+join
+     (select
+             id,
+             table_name,
+             schema_name,
+             table_comment,
+             table_size,
+             table_total_size,
+             table_last_modify_time,
+             table_last_access_time
+      from table_meta_info
+      where assess_date = (select  max(assess_date) from table_meta_info)) t2
+on t1.table_name = t2.table_name and t1.schema_name = t2.schema_name
+order by id
+    limit 10,10;
+
+
+
+
+
 CREATE DATABASE `dga`  DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci ;
 
 create table  table_meta_info

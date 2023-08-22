@@ -2,6 +2,7 @@ package com.atguigu.dga.meta.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
+import com.atguigu.dga.meta.bean.PageTableMetaInfo;
 import com.atguigu.dga.meta.bean.TableMetaInfo;
 import com.atguigu.dga.meta.mapper.TableMetaInfoMapper;
 import com.atguigu.dga.meta.service.TableMetaInfoService;
@@ -57,6 +58,16 @@ public class TableMetaInfoServiceImpl extends ServiceImpl<TableMetaInfoMapper, T
         //4.存入数据库
         saveBatch(tableMetaInfos);
 
+    }
+
+    @Override
+    public Integer queryPageDataNums(String schemaName, String tableName, String dwLevel) {
+        return baseMapper.queryPageDataNums(schemaName,tableName,dwLevel);
+    }
+
+    @Override
+    public List<PageTableMetaInfo> queryPageData(String schemaName, String tableName, String dwLevel, Integer pageSize, Integer from) {
+        return baseMapper.queryPageData(schemaName,tableName,dwLevel,pageSize,from);
     }
 
     private void extractHDFSMetaInfo(List<TableMetaInfo> tableMetaInfos) throws Exception {
