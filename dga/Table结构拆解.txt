@@ -1,0 +1,41 @@
+Table(
+   tableName:ods_log_inc, 
+   dbName:gmall, 
+   owner:atguigu, 
+   createTime:1683630018, 
+   lastAccessTime:0, 
+   retention:0, 
+   sd:StorageDescriptor(
+         cols:[
+            --每一个FieldSchema 代表一个字段的元数据
+            FieldSchema(name:common, type:struct<ar:string,ba:string,ch:string,is_new:string,md:string,mid:string,os:string,sid:string,uid:string,vc:string>, comment:公共信息),
+            FieldSchema(name:page, type:struct<during_time:string,item:string,item_type:string,last_page_id:string,page_id:string,from_pos_id:string,from_pos_seq:string,refer_id:string>, comment:页面信息),
+            FieldSchema(name:actions, type:array<struct<action_id:string,item:string,item_type:string,ts:bigint>>, comment:动作信息),
+            FieldSchema(name:displays, type:array<struct<display_type:string,item:string,item_type:string,pos_seq:string,pos_id:string>>, comment:曝光信息),
+            FieldSchema(name:start, type:struct<entry:string,first_open:bigint,loading_time:bigint,open_ad_id:bigint,open_ad_ms:bigint,open_ad_skip_ms:bigint>, comment:启动信息),
+            FieldSchema(name:err, type:struct<error_code:bigint,msg:string>, comment:错误信息),
+            FieldSchema(name:ts, type:bigint, comment:时间戳)
+            ],
+        location:hdfs://hadoop102:8020/warehouse/gmall/ods/ods_log_inc,
+        inputFormat:org.apache.hadoop.mapred.TextInputFormat,
+        outputFormat:org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat,
+        compressed:false,
+        numBuckets:-1,
+        serdeInfo:SerDeInfo(name:null,
+        serializationLib:org.apache.hadoop.hive.serde2.JsonSerDe,
+        parameters:{serialization.format=1}),
+        bucketCols:[],
+        sortCols:[],
+        parameters:{},
+        skewedInfo:SkewedInfo(skewedColNames:[], skewedColValues:[], skewedColValueLocationMaps:{}),
+        storedAsSubDirectories:false
+	),
+	partitionKeys:[FieldSchema(name:dt, type:string, comment:null)],
+	parameters:{transient_lastDdlTime=1683630018, bucketing_version=2, comment=活动信息表, EXTERNAL=TRUE},
+	viewOriginalText:null, 
+	viewExpandedText:null,
+	tableType:EXTERNAL_TABLE, 
+	rewriteEnabled:false, 
+	catName:hive,
+	ownerType:USER
+	)

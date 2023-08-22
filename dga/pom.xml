@@ -94,6 +94,22 @@
             <version>3.1.2</version>
         </dependency>
 
+        <!-- 导入fastjson 处理json -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.83</version>
+        </dependency>
+
+        <!-- 导入java开发的工具包
+                commons-lang3
+                guava
+        -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+
 
 
 

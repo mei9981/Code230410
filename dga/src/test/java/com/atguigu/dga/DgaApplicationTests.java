@@ -1,6 +1,10 @@
 package com.atguigu.dga;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
+import com.atguigu.dga.meta.service.TableMetaInfoService;
 import org.apache.hadoop.hive.metastore.HiveMetaStoreClient;
+import org.apache.hadoop.hive.metastore.api.StorageDescriptor;
 import org.apache.hadoop.hive.metastore.api.Table;
 import org.apache.thrift.TException;
 import org.junit.jupiter.api.Test;
@@ -12,7 +16,6 @@ import java.util.List;
 @SpringBootTest
 class DgaApplicationTests
 {
-
     @Autowired
     private HiveMetaStoreClient client;
     @Test
@@ -30,6 +33,28 @@ class DgaApplicationTests
         Table table = client.getTable("gmall", "ods_log_inc");
         System.out.println(table);
 
+    }
+
+    @Test
+    void testColJson() throws TException {
+
+        //获取某个表的元数据信息
+        Table table = client.getTable("gmall", "ods_log_inc");
+        //System.out.println(table);
+
+        StorageDescriptor sd = table.getSd();
+
+        SimplePropertyPreFilter filter = new SimplePropertyPreFilter("name", "type", "comment");
+        System.out.println(JSON.toJSONString(sd.getCols(),filter));
+
+    }
+
+    @Autowired
+    private TableMetaInfoService service;
+
+    @Test
+    void testExtractHiveMetaInfo() throws Exception {
+        service.initTableMetaInfo("gmall","2023-08-22");
     }
 
 }
