@@ -1,5 +1,7 @@
 package com.atguigu.dga.controller;
 
+import com.atguigu.dga.meta.service.TableMetaInfoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,12 +12,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class DgaController
 {
+    @Autowired
+    private TableMetaInfoService metaInfoService;
     /*
         获取路径上的参数
         http://dga.gmall.com/tableMetaInfo/init-tables/a/Invalid%20date
      */
     @RequestMapping("/tableMetaInfo/init-tables/{db}/{assessDate}")
-    public Object handle(@PathVariable("db") String db, @PathVariable("assessDate")String assessDate){
+    public Object handle(@PathVariable("db") String db, @PathVariable("assessDate")String assessDate) throws Exception {
+        metaInfoService.initTableMetaInfo(db,assessDate);
         return "ok";
     }
 }
