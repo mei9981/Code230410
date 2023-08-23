@@ -40,7 +40,7 @@ import java.util.List;
 @Service
 public class TableMetaInfoServiceImpl extends ServiceImpl<TableMetaInfoMapper, TableMetaInfo> implements TableMetaInfoService {
 
-    @Autowired
+    //@Autowired
     private HiveMetaStoreClient client;
     @Value("${hdfs.admin}")
     private String admin;
@@ -68,6 +68,11 @@ public class TableMetaInfoServiceImpl extends ServiceImpl<TableMetaInfoMapper, T
     @Override
     public List<PageTableMetaInfo> queryPageData(String schemaName, String tableName, String dwLevel, Integer pageSize, Integer from) {
         return baseMapper.queryPageData(schemaName,tableName,dwLevel,pageSize,from);
+    }
+
+    @Override
+    public List<TableMetaInfo> queryTableMetaInfo(String db, String assessDate) {
+        return null;
     }
 
     private void extractHDFSMetaInfo(List<TableMetaInfo> tableMetaInfos) throws Exception {

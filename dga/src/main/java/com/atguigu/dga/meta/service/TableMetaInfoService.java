@@ -30,4 +30,7 @@ public interface TableMetaInfoService extends IService<TableMetaInfo> {
                                           String dwLevel,  Integer pageSize,
                                            Integer from);
 
+    //查询今天要参与考评的所有表的元数据+辅助信息
+    List<TableMetaInfo> queryTableMetaInfo(String db,String assessDate);
+
 }

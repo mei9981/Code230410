@@ -1,29 +1,28 @@
-
+-- 返回的列名，不能有重复的，因此把重复冲突的列名起别名
 select
     t2.*,
-    t1.tec_owner_user_name,
-    t1.busi_owner_user_name
+    t1.id extraId,
+    t1.table_name extraTn,
+    t1.schema_name extraSn,
+    tec_owner_user_name,
+    busi_owner_user_name,
+    lifecycle_type,
+    lifecycle_days,
+    security_level,
+    dw_level,
+    t1.create_time extraCt,
+    t1.update_time extraUt
+
 from (select
-             table_name,
-             schema_name,
-                 tec_owner_user_name,
-             busi_owner_user_name
-      from table_meta_info_extra) t1
+            *
+      from table_meta_info_extra
+      where schema_name = 'gmall'  ) t1
 join
      (select
-             id,
-             table_name,
-             schema_name,
-             table_comment,
-             table_size,
-             table_total_size,
-             table_last_modify_time,
-             table_last_access_time
+            *
       from table_meta_info
-      where assess_date = (select  max(assess_date) from table_meta_info)) t2
-on t1.table_name = t2.table_name and t1.schema_name = t2.schema_name
-order by id
-    limit 10,10;
+      where schema_name = 'gmall' and assess_date = '2023-08-22') t2
+on t1.table_name = t2.table_name and t1.schema_name = t2.schema_name;
 
 
 
@@ -83,3 +82,17 @@ create table if not exists table_meta_info_extra
         unique (table_name, schema_name)
 )
     comment '元数据表附加信息';
+
+
+create table governance_metric
+(
+    id                 bigint auto_increment comment 'id' primary key,
+    metric_name        varchar(200)  null comment '指标名称',
+    metric_code        varchar(200)  null comment '指标编码',
+    metric_desc        varchar(2000) null comment '指标描述',
+    governance_type    varchar(20)   null comment '治理类型',
+    metric_params_json varchar(2000) null comment '指标参数',
+    governance_url     varchar(500)  null comment '治理连接',
+    is_disabled        varchar(1)    null comment '是否启用'
+)
+    comment '考评指标参数表';

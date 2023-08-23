@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * Created by Smexy on 2023/8/21
  */
-@Configuration
+//@Configuration
 public class DgaConfig
 {
     @Value("${hive.metastore.uris}")

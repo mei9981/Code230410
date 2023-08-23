@@ -2,7 +2,6 @@ package com.atguigu.dga;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
-import com.atguigu.dga.meta.bean.PageTableMetaInfo;
 import com.atguigu.dga.meta.mapper.TableMetaInfoMapper;
 import com.atguigu.dga.meta.service.TableMetaInfoService;
 import org.apache.hadoop.hive.metastore.HiveMetaStoreClient;
@@ -16,7 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 
 @SpringBootTest
-class DgaApplicationTests
+class MetaTests
 {
     @Autowired
     private HiveMetaStoreClient client;

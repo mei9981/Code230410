@@ -72,4 +72,59 @@
         </if>
     </sql>
 
+
+    <!-- 查询今天所有参与测评表的元数据信息
+            如果使用resultType，自动封装。TableMetaInfoExtra tableMetaInfoExtra; 不会封装的！
+                不能使用resultType，只能使用resultMap
+     -->
+    <select id="queryTableMetaInfo" resultMap="rm1">
+        select
+            t2.*,
+            t1.id extraId,
+            t1.table_name extraTn,
+            t1.schema_name extraSn,
+            tec_owner_user_name,
+            busi_owner_user_name,
+            lifecycle_type,
+            lifecycle_days,
+            security_level,
+            dw_level,
+            t1.create_time extraCt,
+            t1.update_time extraUt
+
+        from (select
+                  *
+              from table_meta_info_extra
+              where schema_name = #{db}  ) t1
+                 join
+             (select
+                  *
+              from table_meta_info
+              where schema_name = #{db} and assess_date = #{assessDate}) t2
+             on t1.table_name = t2.table_name and t1.schema_name = t2.schema_name;
+    </select>
+
+    <!--
+        通过设置 autoMapping="true"，此时t2.*中的所有字段都可以自动封装为TableMetaInfo对象中
+    -->
+    <resultMap id="rm1" type="com.atguigu.dga.meta.bean.TableMetaInfo" autoMapping="true">
+            <!--
+                通过设置 autoMapping="true",此时
+                    tec_owner_user_name,
+                    busi_owner_user_name,
+                    lifecycle_type,
+                    lifecycle_days,
+                    security_level,
+                    dw_level,可以自动封装。
+
+            -->
+            <association property="tableMetaInfoExtra" javaType="com.atguigu.dga.meta.bean.TableMetaInfoExtra" autoMapping="true">
+                    <result property="id" column="extraId"/>
+                    <result property="tableName" column="extraTn"/>
+                    <result property="schemaName" column="extraSn"/>
+                    <result property="createTime" column="extraCt"/>
+                    <result property="updateTime" column="extraUt"/>
+            </association>
+    </resultMap>
+
 </mapper>
