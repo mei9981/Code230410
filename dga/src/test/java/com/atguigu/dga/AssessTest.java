@@ -1,10 +1,13 @@
 package com.atguigu.dga;
 
+import com.atguigu.dga.assess.assessor.AssessorTemplate;
+import com.atguigu.dga.assess.service.GovernanceAssessDetailService;
 import com.atguigu.dga.meta.bean.TableMetaInfo;
 import com.atguigu.dga.meta.mapper.TableMetaInfoMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationContext;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -74,5 +77,18 @@ public class AssessTest
         if (matcher.matches()){
             System.out.println(s1 + " 符合ods层的规则!");
         }
+    }
+
+    @Autowired
+    private GovernanceAssessDetailService detailService;
+
+    @Autowired
+    private ApplicationContext context;
+    @Test
+    void testAssess(){
+
+        //AssessorTemplate assessor = context.getBean("HAVE_TABLE_COMMENT",AssessorTemplate.class);
+        detailService.assess("gmall","2023-08-22");
+
     }
 }

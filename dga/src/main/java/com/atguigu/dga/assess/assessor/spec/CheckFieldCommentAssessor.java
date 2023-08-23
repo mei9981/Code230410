@@ -38,7 +38,7 @@ public class CheckFieldCommentAssessor extends AssessorTemplate
 
         //打分
         if (!noCommentFieldNames.isEmpty()){
-            BigDecimal score = BigDecimal.valueOf(noCommentFieldNames.size())
+            BigDecimal score = BigDecimal.valueOf(fields.size() - noCommentFieldNames.size())
                                          .divide(BigDecimal.valueOf(fields.size()), 2, RoundingMode.HALF_UP)
                                          .movePointRight(1);
             assessScore(score,"部分字段未填写注释",JSON.toJSONString(noCommentFieldNames),detail,false,null);

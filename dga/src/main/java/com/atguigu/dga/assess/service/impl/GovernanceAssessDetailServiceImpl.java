@@ -3,6 +3,7 @@ package com.atguigu.dga.assess.service.impl;
 import com.atguigu.dga.assess.assessor.AssessorTemplate;
 import com.atguigu.dga.assess.assessor.spec.CheckBusiOwnnerAssessor;
 import com.atguigu.dga.assess.assessor.spec.CheckTecOwnnerAssessor;
+import com.atguigu.dga.assess.bean.AssessParam;
 import com.atguigu.dga.assess.bean.GovernanceAssessDetail;
 import com.atguigu.dga.assess.bean.GovernanceMetric;
 import com.atguigu.dga.assess.mapper.GovernanceAssessDetailMapper;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -68,6 +70,8 @@ public class GovernanceAssessDetailServiceImpl extends ServiceImpl<GovernanceAss
                 .eq("is_disabled", "否")
         );
 
+        //准备结果集
+        List<GovernanceAssessDetail> result = new ArrayList<>();
         //遍历
         for (TableMetaInfo tableMetaInfo : tableMetaInfos) {
             for (GovernanceMetric metric : metrics) {
@@ -94,13 +98,18 @@ public class GovernanceAssessDetailServiceImpl extends ServiceImpl<GovernanceAss
                           模版模式。可以解决这个问题。
                  */
 
+                //封装考评参数
+                AssessParam param = new AssessParam(tableMetaInfo, metric, assessDate);
                 //使用模版父类对象，来执行方法。 为父类对象提供子类实现。
-                AssessorTemplate assessor = context.getBean(AssessorTemplate.class,metric.getMetricCode());
+                AssessorTemplate assessor = context.getBean(metric.getMetricCode(),AssessorTemplate.class);
 
-                //assessor.doAssess(tableMetaInfo);
-
+                GovernanceAssessDetail detail = assessor.doAssess(param);
+                result.add(detail);
             }
         }
+
+        //存入数据库
+        saveBatch(result);
 
     }
 }
