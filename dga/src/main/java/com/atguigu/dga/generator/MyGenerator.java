@@ -21,7 +21,7 @@ public class MyGenerator
 
 
         //指定为哪些表生成
-        String[] tables={ "governance_metric" };
+        String[] tables={ "governance_assess_detail" };
 
         FastAutoGenerator.create("jdbc:mysql://hadoop102:3306/dga","root","000000")
                          .globalConfig(builder -> {

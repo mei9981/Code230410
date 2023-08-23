@@ -72,7 +72,7 @@ public class TableMetaInfoServiceImpl extends ServiceImpl<TableMetaInfoMapper, T
 
     @Override
     public List<TableMetaInfo> queryTableMetaInfo(String db, String assessDate) {
-        return null;
+        return baseMapper.queryTableMetaInfo(db,assessDate);
     }
 
     private void extractHDFSMetaInfo(List<TableMetaInfo> tableMetaInfos) throws Exception {

@@ -13,6 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface GovernanceMetricService extends IService<GovernanceMetric> {
 
-    //每日考评
-    void assess(String assessDate);
+
 }

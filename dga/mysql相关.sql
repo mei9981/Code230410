@@ -96,3 +96,24 @@ create table governance_metric
     is_disabled        varchar(1)    null comment '是否启用'
 )
     comment '考评指标参数表';
+
+
+CREATE TABLE `governance_assess_detail` (
+                                            `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'id',
+                                            `assess_date` varchar(20) DEFAULT NULL COMMENT '考评日期',
+                                            `table_name` varchar(200) DEFAULT NULL COMMENT '表名',
+                                            `schema_name` varchar(200) DEFAULT NULL COMMENT '库名',
+                                            `metric_id` varchar(200) DEFAULT NULL COMMENT '指标项id',
+                                            `metric_name` varchar(200) DEFAULT NULL COMMENT '指标项名称',
+                                            `governance_type` varchar(200) DEFAULT NULL COMMENT '治理类型',
+                                            `tec_owner` varchar(200) DEFAULT NULL COMMENT '技术负责人',
+                                            `assess_score` decimal(10,2) DEFAULT NULL COMMENT '考评得分',
+                                            `assess_problem` varchar(2000) DEFAULT NULL COMMENT '考评问题项',
+                                            `assess_comment` varchar(2000) DEFAULT NULL COMMENT '考评备注',
+                                            `is_assess_exception` varchar(1) DEFAULT '0' COMMENT '考评是否异常',
+                                            `assess_exception_msg` varchar(2000) DEFAULT NULL COMMENT '异常信息',
+                                            `governance_url` varchar(2000) DEFAULT NULL COMMENT '治理处理路径',
+                                            `create_time` datetime DEFAULT NULL COMMENT '创建日期',
+                                            PRIMARY KEY (`id`)
+)
+    COMMENT='治理考评结果明细';
