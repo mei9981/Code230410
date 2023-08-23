@@ -97,7 +97,7 @@ public class GovernanceAssessDetailServiceImpl extends ServiceImpl<GovernanceAss
                 //使用模版父类对象，来执行方法。 为父类对象提供子类实现。
                 AssessorTemplate assessor = context.getBean(AssessorTemplate.class,metric.getMetricCode());
 
-                assessor.doAssess(tableMetaInfo);
+                //assessor.doAssess(tableMetaInfo);
 
             }
         }

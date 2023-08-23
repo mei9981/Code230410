@@ -3,6 +3,14 @@ package com.atguigu.dga.config;
 //避免被实例化
 public interface MetaConstant
 {
+    //定义正则表达式，验证每一层的命名规则
+    String GMALL_ODS_REGEX = "^ods_\\w+_(inc|full)$";
+    String GMALL_DIM_REGEX = "^dim_\\w+_(zip|full)$";
+    String GMALL_DWD_REGEX = "^dwd_(trade|tool|interaction|traffic|user)_\\w+_(inc|full|acc)$";
+    // 1d,nd,td
+    String GMALL_DWS_REGEX = "^dws_(trade|tool|interaction|traffic|user)_\\w+_(\\d+d|nd|td)$";
+    String GMALL_ADS_REGEX = "^ads_\\w+$";
+    String GMALL_DM_REGEX = "^dm_\\w+$";
     String schema_name="";
     //存储周期
     String LIFECYCLE_TYPE_PERM="PERM";  //永久

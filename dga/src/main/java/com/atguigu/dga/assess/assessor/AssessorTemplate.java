@@ -1,5 +1,6 @@
 package com.atguigu.dga.assess.assessor;
 
+import com.atguigu.dga.assess.bean.AssessParam;
 import com.atguigu.dga.assess.bean.GovernanceAssessDetail;
 import com.atguigu.dga.assess.bean.GovernanceMetric;
 import com.atguigu.dga.meta.bean.TableMetaInfo;
@@ -7,6 +8,7 @@ import com.atguigu.dga.meta.bean.TableMetaInfoExtra;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 /**
@@ -24,7 +26,11 @@ public abstract class AssessorTemplate
 
         最终： 返回考评的结果
      */
-    public GovernanceAssessDetail doAssess(TableMetaInfo tableMetaInfo, GovernanceMetric metric, String assessDate){
+    public GovernanceAssessDetail doAssess(AssessParam param){
+
+        TableMetaInfo tableMetaInfo = param.getTableMetaInfo();
+        String assessDate = param.getAssessDate();
+        GovernanceMetric metric = param.getMetric();
 
         TableMetaInfoExtra metaInfoExtra = tableMetaInfo.getTableMetaInfoExtra();
         GovernanceAssessDetail detail = new GovernanceAssessDetail();
@@ -38,10 +44,12 @@ public abstract class AssessorTemplate
         detail.setTecOwner(metaInfoExtra.getTecOwnerUserName());
         detail.setCreateTime(new Timestamp(System.currentTimeMillis()));
         detail.setGovernanceUrl(metric.getGovernanceUrl());
+        //假设所有表都是符合要求的
+        detail.setAssessScore(BigDecimal.TEN);
         //剩下的内容，需要执行考评，才能获取
         //具体考评步骤  赋值 score,comment,problem, 处理url
         try {
-            assess(tableMetaInfo,metric,assessDate,detail);
+            assess(param,detail);
         }catch (Exception e){
             detail.setIsAssessException("1");
             StringWriter writer = new StringWriter();
@@ -59,6 +67,20 @@ public abstract class AssessorTemplate
         return detail;
     };
 
+    //交给子类调用，在需要修改分数时，修改分数
+    protected void assessScore(BigDecimal score,String problem,String comment,GovernanceAssessDetail detail,boolean replaceUrl,String id){
+
+        detail.setAssessScore(score);
+        detail.setAssessProblem(problem);
+        detail.setAssessComment(comment);
+        if (replaceUrl){
+            detail.setGovernanceUrl(
+                detail.getGovernanceUrl().replace("{id}",id)
+            );
+        }
+
+    }
+
     //把业务核心流程声明为抽象方法，具体实现交给子类
-    protected abstract void assess(TableMetaInfo tableMetaInfo, GovernanceMetric metric, String assessDate,GovernanceAssessDetail detail);
+    protected abstract void assess(AssessParam param,GovernanceAssessDetail detail);
 }
