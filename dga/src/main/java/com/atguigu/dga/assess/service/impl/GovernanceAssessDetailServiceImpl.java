@@ -64,6 +64,9 @@ public class GovernanceAssessDetailServiceImpl extends ServiceImpl<GovernanceAss
     @Override
     public void assess(String db,String assessDate) {
 
+        //重复执行了，希望先删除，再写入
+        remove(new QueryWrapper<GovernanceAssessDetail>().eq("schema_name",db).eq("assess_date",assessDate));
+
         //待考评的所有表的元数据
         List<TableMetaInfo> tableMetaInfos = metaInfoService.queryTableMetaInfo(db, assessDate);
 

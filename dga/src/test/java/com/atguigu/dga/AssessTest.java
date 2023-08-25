@@ -4,14 +4,23 @@ import com.atguigu.dga.assess.assessor.AssessorTemplate;
 import com.atguigu.dga.assess.service.GovernanceAssessDetailService;
 import com.atguigu.dga.meta.bean.TableMetaInfo;
 import com.atguigu.dga.meta.mapper.TableMetaInfoMapper;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileStatus;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.fs.permission.FsPermission;
 import org.junit.jupiter.api.Test;
 import org.mockito.internal.util.collections.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -116,6 +125,41 @@ public class AssessTest
         if (ifInter){
             System.out.println("两个集合交集的结果:" + set1);
         }
+
+    }
+
+    @Value("${hdfs.admin}")
+    private String admin;
+    @Value("${hdfs.uri}")
+    private String hdfsUri;
+    /*
+        获取指定目录的权限，转换为三位数
+     */
+    @Test
+    void testGetPermission() throws Exception {
+
+        FileSystem hdfs = FileSystem.get(new URI(hdfsUri), new Configuration(), admin);
+
+        String file = "hdfs://hadoop102:8020/warehouse/gmall/ods/ods_activity_info_full";
+
+        FileStatus fileStatus = hdfs.getFileStatus(new Path(file));
+
+        FsPermission permission = fileStatus.getPermission();
+        /*
+            按时是-，转换为0，不是-，就转为1
+           ownner  group  other
+            rwx    r-x    r-x
+            111    101    101
+            7      5      5
+         */
+        System.out.println(permission);
+        //转换为3位数格式
+
+        //获取owner的权限，自动转换为数字
+        String permissionStr = "" + permission.getUserAction().ordinal() + permission.getGroupAction().ordinal() + permission.getOtherAction().ordinal();
+
+        System.out.println(permissionStr);
+
 
     }
 }

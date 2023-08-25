@@ -9,6 +9,7 @@ import com.atguigu.dga.meta.bean.TableMetaInfoExtra;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.math.BigDecimal;
+import java.net.URISyntaxException;
 import java.sql.Timestamp;
 
 /**
@@ -82,5 +83,5 @@ public abstract class AssessorTemplate
     }
 
     //把业务核心流程声明为抽象方法，具体实现交给子类
-    protected abstract void assess(AssessParam param,GovernanceAssessDetail detail);
+    protected abstract void assess(AssessParam param,GovernanceAssessDetail detail) throws URISyntaxException, Exception;
 }

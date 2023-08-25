@@ -64,7 +64,8 @@ public class CheckTableSimiliarAssessor extends AssessorTemplate
                 //产生了交集
                 if (currentTableFieldsSet.retainAll(comparedTableFieldsSet)) {
                     BigDecimal percent = BigDecimal.valueOf(currentTableFieldsSet.size())
-                                                  .divide(BigDecimal.valueOf(fieldNum), 2, RoundingMode.HALF_UP);
+                                                  .divide(BigDecimal.valueOf(fieldNum), 2, RoundingMode.HALF_UP)
+                                                    .movePointRight(2);
 
                     //超过建议的阈值
                     if (percent.compareTo(BigDecimal.valueOf(limtPercent)) == 1){
