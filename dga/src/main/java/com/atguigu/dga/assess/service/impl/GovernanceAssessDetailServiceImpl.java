@@ -9,6 +9,7 @@ import com.atguigu.dga.assess.bean.GovernanceMetric;
 import com.atguigu.dga.assess.mapper.GovernanceAssessDetailMapper;
 import com.atguigu.dga.assess.service.GovernanceAssessDetailService;
 import com.atguigu.dga.assess.service.GovernanceMetricService;
+import com.atguigu.dga.config.MetaInfoUtil;
 import com.atguigu.dga.meta.bean.TableMetaInfo;
 import com.atguigu.dga.meta.service.TableMetaInfoService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -38,6 +39,8 @@ public class GovernanceAssessDetailServiceImpl extends ServiceImpl<GovernanceAss
     private GovernanceMetricService metricService;
 
     @Autowired
+    private MetaInfoUtil metaInfoUtil;
+    @Autowired
     private ApplicationContext context;
     /*
         1.考生进考场
@@ -61,8 +64,16 @@ public class GovernanceAssessDetailServiceImpl extends ServiceImpl<GovernanceAss
     @Override
     public void assess(String db,String assessDate) {
 
-        //待考评的表的元数据
+        //待考评的所有表的元数据
         List<TableMetaInfo> tableMetaInfos = metaInfoService.queryTableMetaInfo(db, assessDate);
+
+        //清空Map，保证每次查询到的信息都是最新的
+        metaInfoUtil.tableMetaInfoMap.clear();
+        //把所有表的元数据信息，封装为Map<String,TableMetaInfo>,方便使用表名获取对应的元数据信息
+        for (TableMetaInfo tableMetaInfo : tableMetaInfos) {
+            String key = tableMetaInfo.getSchemaName() + "." + tableMetaInfo.getTableName();
+            metaInfoUtil.tableMetaInfoMap.put(key,tableMetaInfo);
+        }
 
         //查询今天要考评的指标
         List<GovernanceMetric> metrics = metricService.list(
@@ -102,7 +113,7 @@ public class GovernanceAssessDetailServiceImpl extends ServiceImpl<GovernanceAss
                 AssessParam param = new AssessParam(tableMetaInfo, metric, assessDate);
                 //使用模版父类对象，来执行方法。 为父类对象提供子类实现。
                 AssessorTemplate assessor = context.getBean(metric.getMetricCode(),AssessorTemplate.class);
-
+                //进行考评
                 GovernanceAssessDetail detail = assessor.doAssess(param);
                 result.add(detail);
             }

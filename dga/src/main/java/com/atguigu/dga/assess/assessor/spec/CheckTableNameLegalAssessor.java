@@ -33,7 +33,7 @@ import java.util.regex.Pattern;
  * 未纳入分层，给5分
  */
 @Component("TABLE_NAME_STANDARD")
-public class CheckTableNameLegal extends AssessorTemplate
+public class CheckTableNameLegalAssessor extends AssessorTemplate
 {
 
     @Override

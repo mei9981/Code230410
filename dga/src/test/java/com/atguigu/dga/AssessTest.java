@@ -5,6 +5,7 @@ import com.atguigu.dga.assess.service.GovernanceAssessDetailService;
 import com.atguigu.dga.meta.bean.TableMetaInfo;
 import com.atguigu.dga.meta.mapper.TableMetaInfoMapper;
 import org.junit.jupiter.api.Test;
+import org.mockito.internal.util.collections.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
@@ -12,6 +13,7 @@ import org.springframework.context.ApplicationContext;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -89,6 +91,31 @@ public class AssessTest
 
         //AssessorTemplate assessor = context.getBean("HAVE_TABLE_COMMENT",AssessorTemplate.class);
         detailService.assess("gmall","2023-08-22");
+
+    }
+
+    /*
+        set集合: [a,b,c]
+        set集合: [b,c,d]
+            两个集合有多少个元素重复？ 取交集
+     */
+    @Test
+    void testSetInter(){
+
+        Set<String> set1 = Sets.newSet("a", "b", "c");
+        Set<String> set2 = Sets.newSet("d", "b", "c");
+
+        System.out.println("集合运算前:"+set1);
+        //集合取交集
+        boolean ifInter = set1.retainAll(set2);
+        /*
+            如果两个集合产生了交集，此时 ifInter 为true，
+            交集的结果是存在前一个集合中,会删除前一个集合和后一个集合相差的部分。
+         */
+        System.out.println("集合运算后:"+set1);
+        if (ifInter){
+            System.out.println("两个集合交集的结果:" + set1);
+        }
 
     }
 }
