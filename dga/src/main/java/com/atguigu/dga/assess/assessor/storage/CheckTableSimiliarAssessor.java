@@ -37,9 +37,11 @@ public class CheckTableSimiliarAssessor extends AssessorTemplate
     @Override
     protected void assess(AssessParam param, GovernanceAssessDetail detail) {
 
+        JSONObject params = JSON.parseObject(param.getMetric().getMetricParamsJson());
+
         Map<String, TableMetaInfo> tableMetaInfoMap = metaInfoUtil.tableMetaInfoMap;
         //获取参数
-        Integer limtPercent = JSON.parseObject(param.getMetric().getMetricParamsJson()).getInteger("percent");
+        Integer limtPercent = params.getInteger("percent");
         //获取当前表的字段信息
         String currentTableFieldJson = param.getTableMetaInfo().getColNameJson();
         //获取当前表的层级

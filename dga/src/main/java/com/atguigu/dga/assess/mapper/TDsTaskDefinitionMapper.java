@@ -1,0 +1,20 @@
+package com.atguigu.dga.assess.mapper;
+
+import com.atguigu.dga.assess.bean.TDsTaskDefinition;
+import com.baomidou.dynamic.datasource.annotation.DS;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
+
+/**
+ * <p>
+ *  Mapper 接口
+ * </p>
+ *
+ * @author atguigu
+ * @since 2023-08-25
+ */
+@Mapper
+@DS("ds")
+public interface TDsTaskDefinitionMapper extends BaseMapper<TDsTaskDefinition> {
+
+}

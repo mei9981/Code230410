@@ -39,3 +39,12 @@
         在Mysql中准备一张表table_meta_info_extra记录。
             粒度： 一个库的一张表是一行。
             数据： 在首次同步元数据时，生成，后续可以人工修改，不需要每天都去同步
+
+5.DS元数据中重要的表
+    t_ds_process_definition： 存储是你的所有工作流的定义
+    t_ds_process_instance：  存储的是工作流实例的信息
+    t_ds_task_definition：   存储的是Task的定义信息
+            工作流： flow
+            具体的任务: task
+            在一个flow中，可以定义N个task，指定他们的依赖关系
+    t_ds_task_instance:  存储的是Task的运行实例
