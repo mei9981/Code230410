@@ -47,7 +47,7 @@ public class CheckLongTermNoAccess extends AssessorTemplate
         LocalDate assessDateLD = LocalDate.parse(param.getAssessDate());
         //在 日期后添加 00:00:00
         LocalDateTime assessDateLDT = assessDateLD.atStartOfDay();
-        LocalDateTime limitLDT = assessDateLDT.plusDays(days);
+        LocalDateTime limitLDT = assessDateLDT.minusDays(days);
 
         //判断  上次访问时间 早于 符合要求的极限时间
         if (lastAccessTimeLDT.isBefore(limitLDT)){
