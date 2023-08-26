@@ -48,3 +48,11 @@
             具体的任务: task
             在一个flow中，可以定义N个task，指定他们的依赖关系
     t_ds_task_instance:  存储的是Task的运行实例
+
+6.如何找到当前表导数的sql
+    ds调度的元数据:
+        t_ds_task_definition： task_params,抽取 rawScript.
+                课件上从这里取。
+
+        t_ds_task_instance: task_params,抽取 rawScript
+                现在从这里取

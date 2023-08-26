@@ -1,6 +1,7 @@
 package com.atguigu.dga.assess.bean;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
@@ -22,6 +23,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @TableName("t_ds_task_instance")
 public class TDsTaskInstance implements Serializable {
+
+    //这个字段，在表中是没有列和它直接对应的，需要自己赋值
+    @TableField(exist = false)
+    private String sql;
 
     private static final long serialVersionUID = 1L;
 

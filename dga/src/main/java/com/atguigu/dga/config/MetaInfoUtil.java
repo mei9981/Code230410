@@ -13,5 +13,10 @@ import java.util.Map;
 @Component
 public class MetaInfoUtil
 {
+    /*
+        提前把所有待考评表的元数据信息全部拿到
+            key: 库名.表名
+            value： 元数据信息
+     */
     public Map<String, TableMetaInfo> tableMetaInfoMap = new HashMap<>();
 }

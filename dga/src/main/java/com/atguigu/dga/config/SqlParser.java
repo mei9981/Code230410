@@ -1,8 +1,14 @@
 package com.atguigu.dga.config;
 
-import org.apache.hadoop.hive.ql.parse.ASTNode;
-import org.apache.hadoop.hive.ql.parse.ParseDriver;
-import org.apache.hadoop.hive.ql.parse.ParseException;
+import org.antlr.runtime.tree.Tree;
+import org.apache.hadoop.hive.ql.lib.DefaultGraphWalker;
+import org.apache.hadoop.hive.ql.lib.Dispatcher;
+import org.apache.hadoop.hive.ql.lib.GraphWalker;
+import org.apache.hadoop.hive.ql.lib.Node;
+import org.apache.hadoop.hive.ql.parse.*;
+
+import java.util.Collections;
+import java.util.Stack;
 
 /**
  * Created by Smexy on 2023/8/26
@@ -30,16 +36,41 @@ public class SqlParser
                     where节点TOK_WHERE 下的子节点，可能是 比较运算符， = ,>之类
                     也可能是一个逻辑运算符: and,or之类。
 
+        ---------------
+            hive为每一个类型都提供一个int类型的编码。
+                例如: TOK_QUERY = 954
+
      */
-    public static void  parseSql(String sql) throws Exception {
+    public static void  parseSql(String sql, Dispatcher dispatcher) throws Exception {
 
         //解析器
         ParseDriver parseDriver = new ParseDriver();
         //语法树
         ASTNode astNode = parseDriver.parse(sql);
+        //找到 根节点的TOK_QUERY节点
+        ASTNode tokQueryNode = (ASTNode) astNode.getChild(0);
 
-        System.out.println(astNode.getName());
+        // 用遍历器遍历整个语法树
+        GraphWalker ogw = new DefaultGraphWalker(dispatcher);
+        ogw.startWalking(Collections.singletonList(tokQueryNode), null);
 
+        //System.out.println(tokQueryNode.getName());
+
+    }
+
+    public static class MyDispather implements  Dispatcher{
+
+        /*
+            遍历每一个树中的节点时，执行的程序。
+                Node nd： 当前遍历到的一个节点
+         */
+        @Override
+        public Object dispatch(Node nd, Stack<Node> stack, Object... nodeOutputs) throws SemanticException {
+            //把每个节点的名字输出
+            ASTNode node = (ASTNode) nd;
+            System.out.println("name:"+node.getName()+",type:"+node.getType()+",text:"+node.getText());
+            return null;
+        }
     }
 
     public static void main(String[] args) throws Exception {
@@ -77,7 +108,7 @@ public class SqlParser
 
         String sql4 = "select * from dim_user_zip t1  where t1.name = 'jack' ";
 
-        parseSql(sql3);
+        parseSql(sql3,new MyDispather());
 
 
     }
