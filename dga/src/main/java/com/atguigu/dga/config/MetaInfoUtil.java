@@ -1,5 +1,6 @@
 package com.atguigu.dga.config;
 
+import com.atguigu.dga.assess.bean.TDsTaskInstance;
 import com.atguigu.dga.meta.bean.TableMetaInfo;
 import org.springframework.stereotype.Component;
 
@@ -19,4 +20,11 @@ public class MetaInfoUtil
             value： 元数据信息
      */
     public Map<String, TableMetaInfo> tableMetaInfoMap = new HashMap<>();
+
+    /*
+      提前把所有待考评表的Task执行元数据信息全部拿到
+          key: 库名.表名
+          value： Task执行的元数据信息
+   */
+    public Map<String, TDsTaskInstance> taskInstancesMap = new HashMap<>();
 }

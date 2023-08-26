@@ -6,9 +6,11 @@ import com.atguigu.dga.assess.assessor.spec.CheckTecOwnnerAssessor;
 import com.atguigu.dga.assess.bean.AssessParam;
 import com.atguigu.dga.assess.bean.GovernanceAssessDetail;
 import com.atguigu.dga.assess.bean.GovernanceMetric;
+import com.atguigu.dga.assess.bean.TDsTaskInstance;
 import com.atguigu.dga.assess.mapper.GovernanceAssessDetailMapper;
 import com.atguigu.dga.assess.service.GovernanceAssessDetailService;
 import com.atguigu.dga.assess.service.GovernanceMetricService;
+import com.atguigu.dga.assess.service.TDsTaskInstanceService;
 import com.atguigu.dga.config.MetaInfoUtil;
 import com.atguigu.dga.meta.bean.TableMetaInfo;
 import com.atguigu.dga.meta.service.TableMetaInfoService;
@@ -40,6 +42,9 @@ public class GovernanceAssessDetailServiceImpl extends ServiceImpl<GovernanceAss
 
     @Autowired
     private MetaInfoUtil metaInfoUtil;
+
+    @Autowired
+    private TDsTaskInstanceService taskInstanceService;
     @Autowired
     private ApplicationContext context;
     /*
@@ -77,6 +82,13 @@ public class GovernanceAssessDetailServiceImpl extends ServiceImpl<GovernanceAss
             String key = tableMetaInfo.getSchemaName() + "." + tableMetaInfo.getTableName();
             metaInfoUtil.tableMetaInfoMap.put(key,tableMetaInfo);
         }
+
+        //查询所有表的Task执行的元数据(包含sql)
+        List<TDsTaskInstance> allTaskInstances = taskInstanceService.getAllTaskInstances(assessDate, metaInfoUtil.tableMetaInfoMap.keySet());
+        for (TDsTaskInstance taskInstance : allTaskInstances) {
+            metaInfoUtil.taskInstancesMap.put(taskInstance.getName(),taskInstance);
+        }
+
 
         //查询今天要考评的指标
         List<GovernanceMetric> metrics = metricService.list(

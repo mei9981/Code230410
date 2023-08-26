@@ -1,6 +1,7 @@
 package com.atguigu.dga.assess.assessor.cal;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.atguigu.dga.assess.assessor.AssessorTemplate;
 import com.atguigu.dga.assess.bean.AssessParam;
 import com.atguigu.dga.assess.bean.Field;
@@ -74,7 +75,8 @@ public class CheckSimpleProcessAssessor extends AssessorTemplate
         //获取当前表的库名
         String schemaName = param.getTableMetaInfo().getSchemaName();
         //获取到Sql
-        String sql = "";
+        System.out.println(tableName);
+        String sql = metaInfoUtil.taskInstancesMap.get(schemaName +"."+tableName).getSql();
         //解析sql
         MyDispather myDispather = new MyDispather();
         SqlParser.parseSql(sql,myDispather);
@@ -110,8 +112,14 @@ public class CheckSimpleProcessAssessor extends AssessorTemplate
 
         }
 
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("complexOperator",complexOperator);
+        jsonObject.put("whereFields",whereFileds);
+        jsonObject.put("tableNames",tableNames);
+        jsonObject.put("sql",sql);
+
         //不管是什么查询，都把细节信息附上
-        detail.setAssessComment("复杂查询运算符:"+complexOperator+",where过滤的字段:"+whereFileds +",查询的表:"+tableNames);
+        detail.setAssessComment(jsonObject.toJSONString());
     }
 
     /*

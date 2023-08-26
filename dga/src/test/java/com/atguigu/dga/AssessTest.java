@@ -99,7 +99,7 @@ public class AssessTest
     void testAssess(){
 
         //AssessorTemplate assessor = context.getBean("HAVE_TABLE_COMMENT",AssessorTemplate.class);
-        detailService.assess("gmall","2023-08-22");
+        detailService.assess("gmall","2023-05-26");
 
     }
 
