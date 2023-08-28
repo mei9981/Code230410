@@ -1,5 +1,6 @@
 package com.atguigu.dga;
 
+import com.atguigu.dga.score.service.CalScoreService;
 import com.atguigu.dga.score.service.GovernanceAssessGlobalService;
 import com.atguigu.dga.score.service.GovernanceAssessTableService;
 import com.atguigu.dga.score.service.GovernanceAssessTecOwnerService;
@@ -36,5 +37,13 @@ public class ScoreTest
     @Test
     void saveGlobalScore() throws Exception {
         globalService.calGlobalScore("2023-05-26");
+    }
+
+    @Autowired
+    private CalScoreService calScoreService;
+
+    @Test
+    void calScore() throws Exception {
+        calScoreService.calScore("2023-05-26");
     }
 }

@@ -23,11 +23,11 @@ public interface GovernanceAssessTecOwnerMapper extends BaseMapper<GovernanceAss
         "       null id," +
         "       #{dt} assess_date," +
         "       tec_owner," +
-        "       avg(score_spec_avg) score_spec," +
-        "       avg(score_storage_avg) score_storage," +
-        "       avg(score_calc_avg) score_calc," +
-        "       avg(score_quality_avg) score_quality," +
-        "       avg(score_security_avg) score_security," +
+        "       avg(score_spec_avg) * 10 score_spec," +
+        "       avg(score_storage_avg) * 10 score_storage," +
+        "       avg(score_calc_avg) * 10 score_calc," +
+        "       avg(score_quality_avg) * 10 score_quality," +
+        "       avg(score_security_avg) * 10 score_security," +
         "       avg(score_on_type_weight) score," +
         "       count(if(problem_num >0,table_name,null)) table_num," +
         "       sum(problem_num) problem_num," +

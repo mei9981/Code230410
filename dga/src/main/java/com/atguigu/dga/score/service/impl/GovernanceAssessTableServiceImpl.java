@@ -70,7 +70,7 @@ public class GovernanceAssessTableServiceImpl extends ServiceImpl<GovernanceAsse
                     }
                 }
                 //假设总分还是10分
-                t.setScoreOnTypeWeight(scoreOnTypeWeight.movePointLeft(2));
+                t.setScoreOnTypeWeight(scoreOnTypeWeight.movePointLeft(1));
             }
         );
 

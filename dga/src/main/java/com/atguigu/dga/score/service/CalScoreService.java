@@ -5,5 +5,6 @@ package com.atguigu.dga.score.service;
  */
 public interface CalScoreService
 {
+    //算分
     void calScore(String assessDate) throws Exception;
 }
