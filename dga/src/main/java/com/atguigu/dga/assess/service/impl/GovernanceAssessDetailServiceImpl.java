@@ -18,10 +18,17 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
+
 
 /**
  * <p>
@@ -47,6 +54,10 @@ public class GovernanceAssessDetailServiceImpl extends ServiceImpl<GovernanceAss
     private TDsTaskInstanceService taskInstanceService;
     @Autowired
     private ApplicationContext context;
+
+    //注入线程池对象
+    @Autowired
+    private ThreadPoolTaskExecutor executorService;
     /*
         1.考生进考场
                 考生: 数仓中的表的元数据信息
@@ -96,21 +107,59 @@ public class GovernanceAssessDetailServiceImpl extends ServiceImpl<GovernanceAss
                 .eq("is_disabled", "否")
         );
 
-        //准备结果集
-        List<GovernanceAssessDetail> result = new ArrayList<>();
+        /*
+            任务集合
+                每个任务运行一张表的全部指标的考评过程。 返回 List<GovernanceAssessDetail>
+         */
+        CompletableFuture<List<GovernanceAssessDetail>>[] tasks = new CompletableFuture[tableMetaInfos.size()];
+        //提交任务
+        for (int i = 0; i < tasks.length; i++) {
+            /*
+                异步提交，速度快，不会阻塞
+                返回的CompletableFuture就代表这个任务本身。
+             */
+            int finalI = i;
+            tasks[i] = CompletableFuture.supplyAsync(new Supplier<List<GovernanceAssessDetail>>()
+            {
+                @Override
+                public List<GovernanceAssessDetail> get() {
+                    //运行考评
+                    List<GovernanceAssessDetail> details = runAssess(tableMetaInfos.get(finalI), metrics, assessDate);
+                    return details;
+                }
+            },executorService);
+        }
+        // 等待刚刚提交的任务，全部运行结束。阻塞的！
+        CompletableFuture.allOf(tasks).join();
+
+        /*
+            遍历结果
+            输入: 每张表都是一个 [GovernanceAssessDetail,GovernanceAssessDetail ]
+                    [
+                      [GovernanceAssessDetail,GovernanceAssessDetail ],
+                      [GovernanceAssessDetail,GovernanceAssessDetail ]
+                      .....
+                    ]
+
+            结果: [ GovernanceAssessDetail,GovernanceAssessDetail ]
+         */
+        List<GovernanceAssessDetail> result = Arrays.stream(tasks)
+                                                     .flatMap(task -> task.join().stream())
+                                                     .collect(Collectors.toList());
+
         //遍历
-        for (TableMetaInfo tableMetaInfo : tableMetaInfos) {
+        /*for (TableMetaInfo tableMetaInfo : tableMetaInfos) {
             for (GovernanceMetric metric : metrics) {
-                /*
+                *//*
                     完成考试逻辑
                     判断当前这道题是什么题，把这个题交给对应的批卷老师(assessor)
-                 */
-                /*if (metric.getMetricCode().equals("HAVE_TEC_OWNER")){
+                 *//*
+                *//*if (metric.getMetricCode().equals("HAVE_TEC_OWNER")){
                     new CheckTecOwnnerAssessor().assess();
                 }else if (metric.getMetricCode().equals("HAVE_BUS_OWNER")){
                     new CheckBusiOwnnerAssessor().assess();
-                }*/
-                /*
+                }*//*
+                *//*
                     ... 17个if判断.能解决问题，维护性差。
                      违背了软件开发的一个原则：
                         开闭原则：
@@ -122,7 +171,7 @@ public class GovernanceAssessDetailServiceImpl extends ServiceImpl<GovernanceAss
                             套路针对某些特定的场景设计的，可以解决一些特定的问题。
 
                           模版模式。可以解决这个问题。
-                 */
+                 *//*
 
                 //封装考评参数
                 AssessParam param = new AssessParam(tableMetaInfo, metric, assessDate);
@@ -132,10 +181,26 @@ public class GovernanceAssessDetailServiceImpl extends ServiceImpl<GovernanceAss
                 GovernanceAssessDetail detail = assessor.doAssess(param);
                 result.add(detail);
             }
-        }
+        }*/
 
         //存入数据库
         saveBatch(result);
 
+    }
+
+    private List<GovernanceAssessDetail> runAssess(TableMetaInfo tableMetaInfo, List<GovernanceMetric> metrics, String assessDate) {
+        List<GovernanceAssessDetail> result = new ArrayList<>();
+
+        for (GovernanceMetric metric : metrics) {
+            //封装考评参数
+            AssessParam param = new AssessParam(tableMetaInfo, metric, assessDate);
+            //使用模版父类对象，来执行方法。 为父类对象提供子类实现。
+            AssessorTemplate assessor = context.getBean(metric.getMetricCode(), AssessorTemplate.class);
+            //进行考评
+            GovernanceAssessDetail detail = assessor.doAssess(param);
+            result.add(detail);
+
+        }
+        return result;
     }
 }

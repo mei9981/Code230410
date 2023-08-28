@@ -32,6 +32,12 @@ spring:
             test-while-idle: true
   autoconfigure:
     exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
+  task:
+    execution:
+      pool:
+        queue-capacity: 100
+        max-size: 300
+        core-size: 100
 
 #前缀全部替换为mybatis-plus
 mybatis-plus:
