@@ -1,3 +1,24 @@
+-- governance_assess_detail粒度： 每天每张表每个指标一行
+-- 每天每张表1行
+-- 如果 a 和 c是1：1的关系 那么 group by a 和 group a,c是一样的效果，不会改变分组结果
+select null,
+       '2023-05-26' assess_date,
+       table_name,
+       schema_name,
+       tec_owner,
+       ifnull(avg(if(governance_type='SPEC',assess_score,null)),0) score_spec_avg,
+       ifnull(avg(if(governance_type='STORAGE',assess_score,null)),0) score_storage_avg,
+       ifnull(avg(if(governance_type='CALC',assess_score,null)),0) score_calc_avg,
+       ifnull(avg(if(governance_type='QUALITY',assess_score,null)),0) score_quality_avg,
+       ifnull(avg(if(governance_type='SECURITY',assess_score,null)),0) score_security_avg,
+       null score_on_type_weight,
+       count(if(assess_score < 10,assess_score,null)) problem_num,
+       now() create_time
+from governance_assess_detail
+where assess_date = '2023-05-26'
+group by schema_name,table_name,tec_owner;
+
+
 -- 几个函数
 -- timestampdiff(时间单位，时间1，时间2)。 时间必须是DateTime 或 Date
 select timestampdiff(second ,start_time,end_time)
@@ -7,6 +28,41 @@ where id = 1;
 
 -- 求日期差值  DATE_ADD|SUB(date, INTERVAL n DAY)
 select date_sub('2023-08-28',INTERVAL 3 day );
+
+insert into t_ds_task_instance
+select
+       null,
+       name,
+       task_type,
+       task_code,
+       task_definition_version,
+       process_instance_id,
+       state,
+       submit_time,
+       start_time,
+       end_time,
+       host,
+       execute_path,
+       log_path,
+       alert_flag,
+       retry_times,
+       pid,
+       app_link,
+       task_params,
+       flag,
+       retry_interval,
+       max_retry_times,
+       task_instance_priority,
+       worker_group,
+       environment_code,
+       environment_config,
+       executor_id,
+       first_submit_time,
+       delay_time,
+       var_pool,
+       dry_run
+from t_ds_task_instance
+where name = 'gmall.dim_user_zip';
 
 
 -- 返回的列名，不能有重复的，因此把重复冲突的列名起别名

@@ -21,9 +21,9 @@ public class MyGenerator
 
 
         //指定为哪些表生成
-        String[] tables={ "t_ds_task_definition","t_ds_task_instance" };
+        String[] tables={ "governance_assess_global","governance_assess_table","governance_assess_tec_owner","governance_type" };
 
-        FastAutoGenerator.create("jdbc:mysql://hadoop102:3306/dolphinscheduler","root","000000")
+        FastAutoGenerator.create("jdbc:mysql://hadoop102:3306/dga","root","000000")
                          .globalConfig(builder -> {
                              builder.author("atguigu")               //作者
                                     .outputDir("E:\\repo\\Code230410\\dga\\src\\main\\java")    //输出路径(写到java目录)
@@ -32,7 +32,7 @@ public class MyGenerator
                          })
                          .packageConfig(builder -> {                 //各个package 名称
                              builder.parent("com.atguigu.dga")
-                                    .moduleName("assess")
+                                    .moduleName("score")
                                     //下面全是父包下的包名
                                     .entity("bean")
                                     .service("service")

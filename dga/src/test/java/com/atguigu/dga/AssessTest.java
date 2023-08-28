@@ -197,5 +197,21 @@ public class AssessTest
 
     }
 
+    /*
+        很多语言中，可以使用
+            %s，作为一个String类型的占位符
+            %d,作为一个数值类型的占位符
+
+            %需要转义，%%代表一个%
+     */
+    @Test
+    void testString(){
+
+        String msg = "dt=%s数据的产生量:%s,超过了阈值%s%%,或者低于阈值%s%%";
+        String str = String.format(msg, "2023-08-23", 20, 30, 40);
+        System.out.println(str);
+
+    }
+
 
 }
