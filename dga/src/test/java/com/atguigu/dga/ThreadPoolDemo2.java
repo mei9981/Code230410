@@ -54,8 +54,8 @@ public class ThreadPoolDemo2
         /*
            等待刚刚提交的任务，全部运行结束。阻塞的！
 
-            CompletableFuture.allOf(tasks): 要求对于集合中的每一个任务都要xxx
-                xxx就是join(), join()是获取任务最重执行的结果。
+            CompletableFuture.allOf(tasks).xxx(): 要求对于集合中的每一个任务都要xxx
+                xxx就是join(), join()是获取任务最终执行的结果。
 
                 代表提交的10个任务，全部运行结果了，已经获得了结果
          */
