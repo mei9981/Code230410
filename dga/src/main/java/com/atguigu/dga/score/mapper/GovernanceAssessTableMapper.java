@@ -32,8 +32,8 @@ public interface GovernanceAssessTableMapper extends BaseMapper<GovernanceAssess
         "       null score_on_type_weight," +
         "       count(if(assess_score < 10,assess_score,null)) problem_num," +
         "       now() create_time" +
-        "from governance_assess_detail" +
-        "where assess_date = #{dt}" +
-        "group by schema_name,table_name,tec_owner; ")
+        " from governance_assess_detail" +
+        " where assess_date = #{dt}" +
+        " group by schema_name,table_name,tec_owner; ")
     List<GovernanceAssessTable> calScorePerTable(@Param("dt") String assessDate);
 }

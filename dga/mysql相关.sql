@@ -1,3 +1,51 @@
+select
+    null id,
+    '2023-05-26' assess_date,
+    avg(score_spec_avg) score_spec,
+    avg(score_storage_avg) score_storage,
+    avg(score_calc_avg) score_calc,
+    avg(score_quality_avg) score_quality,
+    avg(score_security_avg) score_security,
+    avg(score_on_type_weight) score,
+    count(if(problem_num >0,table_name,null)) table_num,
+    sum(problem_num) problem_num,
+    now() create_time
+from governance_assess_table
+where assess_date = '2023-05-26';
+
+select id,
+       assess_date,
+       score_spec,
+       score_storage,
+       score_calc,
+       score_quality,
+       score_security,
+       score,
+       table_num,
+       problem_num,
+       create_time
+from governance_assess_global;
+
+
+select
+       null id,
+       '2023-05-26' assess_date,
+       tec_owner,
+       avg(score_spec_avg) score_spec,
+       avg(score_storage_avg) score_storage,
+       avg(score_calc_avg) score_calc,
+       avg(score_quality_avg) score_quality,
+       avg(score_security_avg) score_security,
+       avg(score_on_type_weight) score,
+       count(if(problem_num >0,table_name,null)) table_num,
+       sum(problem_num) problem_num,
+       now() create_time
+from governance_assess_table
+  where assess_date = '2023-05-26'
+    and length(ifnull(tec_owner,'')) > 0
+group by tec_owner;
+
+
 -- governance_assess_detail粒度： 每天每张表每个指标一行
 -- 每天每张表1行
 -- 如果 a 和 c是1：1的关系 那么 group by a 和 group a,c是一样的效果，不会改变分组结果
