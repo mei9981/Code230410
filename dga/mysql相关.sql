@@ -1,3 +1,14 @@
+-- 几个函数
+-- timestampdiff(时间单位，时间1，时间2)。 时间必须是DateTime 或 Date
+select timestampdiff(second ,start_time,end_time)
+ from t_ds_task_instance
+where id = 1;
+
+
+-- 求日期差值  DATE_ADD|SUB(date, INTERVAL n DAY)
+select date_sub('2023-08-28',INTERVAL 3 day );
+
+
 -- 返回的列名，不能有重复的，因此把重复冲突的列名起别名
 select
     t2.*,

@@ -1,9 +1,13 @@
 package com.atguigu.dga;
 
 import com.atguigu.dga.assess.assessor.AssessorTemplate;
+import com.atguigu.dga.assess.bean.TDsTaskInstance;
 import com.atguigu.dga.assess.service.GovernanceAssessDetailService;
+import com.atguigu.dga.assess.service.TDsTaskInstanceService;
+import com.atguigu.dga.config.MetaConstant;
 import com.atguigu.dga.meta.bean.TableMetaInfo;
 import com.atguigu.dga.meta.mapper.TableMetaInfoMapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
@@ -22,6 +26,7 @@ import java.math.RoundingMode;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -162,4 +167,35 @@ public class AssessTest
 
 
     }
+
+    @Autowired
+    private TDsTaskInstanceService taskInstanceService;
+    /*
+        如果只查询N列，这列也不在bean中，不想额外创建bean。可以使用Map封装。
+     */
+    @Test
+    void testSelectMap(){
+
+        QueryWrapper<TDsTaskInstance> queryWrapper = new QueryWrapper<TDsTaskInstance>()
+            .eq("date(start_time)", "2023-05-26")
+            .eq("state", MetaConstant.TASK_STATE_SUCCESS)
+            .eq("name", "gmall.dim_sku_full")
+            .select("timestampdiff(second ,start_time,end_time) sec", "name");
+
+        /*
+                只有一行： 调用getMap()，返回一个Map
+                        一行，都封装为一个Map，key是列名，value是列值。
+
+                结果有N行: 调用 listMaps()，返回值是List<Map>
+                        一行，都封装为一个Map，key是列名，value是列值。
+                        把多个Map封装到一个List中
+         */
+        Map<String, Object> result = taskInstanceService.getMap(queryWrapper);
+
+        //{sec=65, name=gmall.dim_sku_full}
+        System.out.println(result);
+
+    }
+
+
 }
